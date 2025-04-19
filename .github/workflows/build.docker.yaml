@@ -1,5 +1,11 @@
 name: Build and Publish Docker Images
-on: [workflow_dispatch]
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - 'api/docekrfile'
+      - 'front-end-nextjs/dockerfile'
 
 jobs:
   build-and-push:
@@ -7,15 +13,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-
-      - name: Build and push backend image
+      - name: Build image
         run: |
           docker login -u mahmoud00thedev -p ${{ secrets.DOCKER_HUB_TOKEN }} 
+          docker build ./front-end-nextjs/ -t mahmoud00thedev/devops-qr-code-frontend:latest
           docker build ./api/ -t mahmoud00thedev/devops-qr-code-backend:latest
-          docker push mahmoud00thedev/devops-qr-code-backend:latest
 
       - name: Build and push frontend image
         run: |
-          docker build ./front-end-nextjs/ -t mahmoud00thedev/devops-qr-code-frontend:latest
-          docker push mahmoud00thedev/devops-qr-code-frontend:latest
+          docker push mahmoud00thedev/devops-qr-code-frontend:latest         
+          docker push mahmoud00thedev/devops-qr-code-backend:latest
