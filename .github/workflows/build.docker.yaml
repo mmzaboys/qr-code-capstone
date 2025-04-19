@@ -3,8 +3,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'api/Dockerfile'  # Changed from dockerfile
-      - 'front-end-nextjs/Dockerfile'  # Changed from dockerfile
+      - 'api/Dockerfile'
+      - 'front-end-nextjs/Dockerfile'
   workflow_dispatch:
 
 jobs:
@@ -20,23 +20,21 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          username: mahmoud00thedev  # Your username hardcoded
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}  # Still use secret for token
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
         with:
           context: ./front-end-nextjs
-          file: ./front-end-nextjs/Dockerfile  # Changed
+          file: ./front-end-nextjs/Dockerfile
           push: true
-          tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-frontend:latest
+          tags: mahmoud00thedev/devops-qr-code-frontend:latest
 
       - name: Build and push backend
         uses: docker/build-push-action@v5
         with:
           context: ./api
-          file: ./api/Dockerfile  # Changed
+          file: ./api/Dockerfile
           push: true
-          tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-backend:latest
+          tags: mahmoud00thedev/devops-qr-code-backend:latest
