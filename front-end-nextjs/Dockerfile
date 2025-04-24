@@ -6,7 +6,7 @@ RUN \
     elif [ -f package-lock.json ]; then npm ci; \
     elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
     else echo "No lock file found" && exit 1; fi
-COPY    . .
+COPY . .
 RUN npm run build
 EXPOSE  3000
 CMD ["npm", "start"]
